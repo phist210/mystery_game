@@ -10,7 +10,7 @@ def clean_sentence(sentence):
 
 
 def clear():
-    os.system('clear')
+    os.system('clear')  # used to clear the screen for different sections
 
 
 def pull_all_words():
@@ -33,26 +33,26 @@ def pull_difficulty_level():
         return "hard"
 
 
-def pull_words_for_difficulty(words, choice):
-    if choice == 'easy':
+def pull_words_for_difficulty(words, difficulty):
+    if difficulty == 'easy':  # numbers refer to word length
         return pull_words_min_max(words, 4, 6)
-    elif choice == 'medium':
+    elif difficulty == 'medium':
         return pull_words_min_max(words, 6, 8)
     else:
         return pull_words_min_max(words, 8, 99)
 
 
 def pull_words_min_max(words, min_length, max_length):
-    difficulty = []
+    fixed_words = []  # pulls words depending on difficulty(word length)
 
     for word in words:
         if len(word) >= min_length and len(word) <= max_length:
-            difficulty.append(clean_sentence(word))
-    return difficulty
+            fixed_words.append(clean_sentence(word))
+    return fixed_words
 
 
-def pull_rand_word(difficulty):
-    return difficulty[random.randrange(0, len(difficulty))]
+def pull_rand_word(fixed_words):  # chooses random word from fixed_words
+    return fixed_words[random.randrange(0, len(fixed_words))]
 
 
 def pull_guess(bad_guesses, good_guesses, mystery_word):
@@ -78,15 +78,15 @@ def board(bad_guesses, good_guesses, mystery_word):
     print('** Strikes: {}/8 **'.format(len(bad_guesses)))
     print('')
 
-    for guess in bad_guesses:
-        print(guess, end='')
+    for guess in bad_guesses:  # displays bad guesses as a tally
+        print(guess, end=" ")
     print('\n\n')
 
     for guess in mystery_word:
         if guess in good_guesses:
-            print(guess, end='')
+            print(guess, end=" ")
         else:
-            print(' _ ', end='')
+            print(' _ ', end=" ")  # displays blank spaces until a good guess
 
     print('')
 
@@ -115,10 +115,10 @@ def play_again():
 
 
 def main():
-    choice = pull_difficulty_level()
+    difficulty = pull_difficulty_level()
     words = pull_all_words()
-    difficulty = pull_words_for_difficulty(words, choice)
-    mystery_word = pull_rand_word(difficulty)
+    fixed_words = pull_words_for_difficulty(words, difficulty)
+    mystery_word = pull_rand_word(fixed_words)
     bad_guesses = []
     good_guesses = []
     board(bad_guesses, good_guesses, mystery_word)
@@ -140,7 +140,7 @@ def main():
             bad_guesses.append(guess)
             if len(bad_guesses) == 8:
                 clear()
-                print("\nENGHH!")
+                print("\n **  ENGHH!  ** ")
                 print("\nStrike ! You lost!")
                 print("\nThe secret word was {}".format(mystery_word.upper()))
                 done = True
