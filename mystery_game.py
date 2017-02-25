@@ -79,14 +79,14 @@ def board(bad_guesses, good_guesses, mystery_word):
     print('')
 
     for guess in bad_guesses:
-        print(guess)
+        print(guess, end='')
     print('\n\n')
 
     for guess in mystery_word:
         if guess in good_guesses:
-            print(guess)
+            print(guess, end='')
         else:
-            print(' _ ')
+            print(' _ ', end='')
 
     print('')
 
